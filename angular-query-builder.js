@@ -12,7 +12,7 @@ app.controller('QueryBuilderCtrl', ['$scope', function ($scope) {
             i > 0 && (str += " <strong>" + group.operator + "</strong> ");
             str += group.rules[i].group ?
                 computed(group.rules[i].group) :
-                group.rules[i].field + " " + htmlEntities(group.rules[i].condition) + " " + group.rules[i].data;
+                group.rules[i].field + ": " + group.rules[i].data;
         }
 
         return str + ")";
@@ -42,7 +42,8 @@ queryBuilder.directive('queryBuilder', ['$compile', function ($compile) {
             return function (scope, element, attrs) {
                 scope.operators = [
                     { name: 'AND' },
-                    { name: 'OR' }
+                    { name: 'OR' },
+                    { name: 'NOT' }
                 ];
 
                 scope.fields = [
@@ -54,17 +55,12 @@ queryBuilder.directive('queryBuilder', ['$compile', function ($compile) {
                 ];
 
                 scope.conditions = [
-                    { name: '=' },
-                    { name: '<>' },
-                    { name: '<' },
-                    { name: '<=' },
-                    { name: '>' },
-                    { name: '>=' }
+                    { name: ':' }
                 ];
 
                 scope.addCondition = function () {
                     scope.group.rules.push({
-                        condition: '=',
+                        condition: ':',
                         field: 'Firstname',
                         data: ''
                     });
